@@ -114,6 +114,7 @@ development:
 
   # Configure Mongoid specific options. (optional)
   options:
+    raise_not_found_error: false
     # Application name that is printed to the mongodb logs upon establishing
     # a connection in server versions >= 3.4. Note that the name cannot
     # exceed 128 bytes. It is also used as the database name if the

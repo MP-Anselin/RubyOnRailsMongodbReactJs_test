@@ -2,7 +2,6 @@ class UsersService < ApplicationService
 
   ##
   # Function to get User model class functions
-
   def model
     User
   end

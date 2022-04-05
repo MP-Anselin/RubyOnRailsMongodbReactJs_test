@@ -1,6 +1,5 @@
 class CartsController < ApplicationController
   before_action :authentication
-  before_action :set_cart, only: %i[ show, add_product ]
 
   ##
   # initialize the cart service from JobsService class which will execute the requests of CartsController
@@ -10,14 +9,12 @@ class CartsController < ApplicationController
     @cart_service = CartsService.new
   end
 
-
   ##
   # Function to analyze the request show cart content
   #
   # params id:string id of the cart to display
   #
   # GET /carts/:id
-
 
   def show
     render json: @cart_service.cart
@@ -26,28 +23,58 @@ class CartsController < ApplicationController
   ##
   # Function to add product in the cart
   #
-  # params id:string id of the cart to display
-  # params code:string product code to add to the cart
+  # params product_id:string product_id of the product to add
   #
-  # GET /carts/:id/add/:code
+  # POST /carts/product/add
 
   def add_product
-    render json: @cart_service.add_product(cart_params[:code])
+    @cart_service.add_product(cart_params[:product_id], set_current_cart)
+    render json: current_user.carts
+  end
+
+  ##
+  # Function to remove product in the cart
+  #
+  # params product_id:string product_id of the product to remove
+  #
+  # POST /carts/product/remove
+
+  def remove_product
+    @cart_service.remove_product(cart_params[:product_id], set_current_cart)
+    render json: current_user.carts
+  end
+
+  ##
+  # Function close the cart shopping
+  #
+  # params id:string id of the cart to close
+  #
+  # GET /carts/:id/close
+
+  def close_cart
+    render json: @cart_service.close_cart
   end
 
   private
 
-  ##
-  # Function to set the current cart
-  #
-  # Use callbacks to share common setup or constraints between actions.
+  def set_current_cart
+    user_carts = current_user.carts
+    save_cart = nil
+    puts 'set_current_cart => ', user_carts.inspect
+    if user_carts
+      user_carts.each do |cart|
+        if cart.is_bought == false
+          save_cart = cart
+          break
+        end
+      end
+    end
 
-  def set_cart
-    @cart_service.cart = cart_params[:id]
+    !save_cart ? @cart_service.create_cart(current_user) : save_cart
   end
 
   def cart_params
-    params.permit(:code, :id)
+    # params.permit(:id, :product_id)
     params
   end
 

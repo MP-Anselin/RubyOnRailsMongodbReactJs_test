@@ -2,10 +2,12 @@ class CartsService < ApplicationService
 
   ##
   # initialize the product service from productsService which will execute user requests for CartsController.
+  # initialize the user service from usersService which will execute user requests for CartsController.
   #
 
   def initialize
     @products_service = ProductsService.new
+    @users_service = UsersService.new
   end
 
 
@@ -32,22 +34,46 @@ class CartsService < ApplicationService
     @cart
   end
 
-  def create(code)
-    @cart = Cart.new
-    add_product(code)
-    @cart.save
+  def create_cart(current_user)
+    new_cart = Cart.new
+    new_cart.user_id = current_user._id
+    @users_service.update_cart(current_user, new_cart)
+    puts 'new_cart => ', new_cart.inspect
+    new_cart.save
+    new_cart
   end
 
-  def add_product(code)
-    product = @products_service.get_by_product_code(code)
-    cart.products << product._id
-    cart.amount += product.amount
-    cart.update
+  ##
+  # Function to add product to cart
+  #
+  # params product_id:string product_id of the product to add
+
+  def add_product(product_id, current_cart = nil )
+    unless current_cart
+      current_cart = @cart
+    end
+    current_cart.products << product_id
+    current_cart.update
   end
 
-  private
+  ##
+  # Function to remove product to cart
+  #
+  # params product_id:string product_id of the product to remove
 
-  def promotion(cart)
+  def remove_product(product_id, current_cart = [] )
+    unless current_cart
+      current_cart = @cart
+    end
+    current_cart.products.delete_at(current_cart.products.index product_id)
+    current_cart.update
+  end
 
+  ##
+  # Function to close current cart element
+
+  def close_cart
+    @cart.is_bought = true
+    @cart.update
   end
 end

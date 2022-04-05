@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   before_action :authentication
-  before_action :set_product, only: %i[ show]
+  before_action :set_product, only: %i[ index show show_by_code]
 
   ##
   # initialize the product service from productsService class which will execute the requests of ProductsController
@@ -10,11 +10,25 @@ class ProductsController < ApplicationController
     @product_service = ProductsService.new
   end
 
+  # GET /product/:id
+  def show
+    render json: @product_service.model.find(product_params[:id])
+  end
+
 
   # GET /product/:code
-  def show
+  def show_by_code
     @product_service.product = product_params[:code]
     render json: @product_service.product
+  end
+
+  ##
+  # Function to analyze the request get all product
+  #
+  # GET /products
+
+  def index
+    render json: @product_service.model.all
   end
 
   private

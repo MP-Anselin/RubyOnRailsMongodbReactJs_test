@@ -27,12 +27,12 @@ class UsersService < ApplicationService
   ##
   # Function to execute request, create job, we store which job the user created
   #
-  # params user_id:string id of the user who creates the job
-  # params job:Job job is a intense of the job is created
+  # params current_user:User current_user is a intense of the user is added product in cart
+  # params cart:Cart cart is a intense of the cart
   #
 
-  def update_jobs(user_id, job)
-    user = get_by_id(user_id)
-    user.jobs << job
+  def update_cart(current_user, cart)
+    current_user.carts << cart
+    puts "update_cart: current_user ==> ", current_user.carts.inspect
   end
 end

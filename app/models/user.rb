@@ -11,7 +11,7 @@ class User
   field :password_hash, type: String
 
   #relaction of the table user
-  has_many :carts, class_name: 'Cart'
+  has_many :carts, class_name: 'Cart', dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :password, presence: true

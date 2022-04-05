@@ -8,7 +8,6 @@ class ProductsService < ApplicationService
   end
 
   def product=(code)
-    puts " code ", code
     @product = get_by_product_code(code)
   end
 
@@ -25,7 +24,6 @@ class ProductsService < ApplicationService
   # params code:string email of the code to find
 
   def get_by_product_code(code)
-    puts "code => ", code
     Product.find_by(product_code: code)
   end
 end

@@ -33,6 +33,19 @@ class CartsController < ApplicationController
   end
 
   ##
+  # Function to get the content of the current user current cart
+  #
+  #
+  # GET /carts/products
+
+  def get_current_cart_content
+    data = {}
+    data["price"] = @cart_service.get_cart_price(set_current_cart.products)
+    data["products"] = set_current_cart.products
+    render json: data
+  end
+
+  ##
   # Function to remove product in the cart
   #
   # params product_id:string product_id of the product to remove
@@ -60,7 +73,6 @@ class CartsController < ApplicationController
   def set_current_cart
     user_carts = current_user.carts
     save_cart = nil
-    puts 'set_current_cart => ', user_carts.inspect
     if user_carts
       user_carts.each do |cart|
         if cart.is_bought == false
@@ -74,7 +86,6 @@ class CartsController < ApplicationController
   end
 
   def cart_params
-    # params.permit(:id, :product_id)
     params
   end
 

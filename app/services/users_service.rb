@@ -33,6 +33,5 @@ class UsersService < ApplicationService
 
   def update_cart(current_user, cart)
     current_user.carts << cart
-    puts "update_cart: current_user ==> ", current_user.carts.inspect
   end
 end

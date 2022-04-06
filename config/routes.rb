@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post "/cart/:code", to: "carts#create"
   post "/cart/product/add", to: "carts#add_product"
   post "/cart/product/remove", to: "carts#remove_product"
+  get "/cart/products", to: "carts#get_current_cart_content"
 
   get "/promotion/:id", to: "promotions#show"
   get "/promotions", to: "promotions#index"

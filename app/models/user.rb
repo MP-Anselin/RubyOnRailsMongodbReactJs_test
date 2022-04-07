@@ -6,7 +6,6 @@ class User
   include Mongoid::Timestamps
 
   # field of the collection user
-  field :username, type: String
   field :email, type: String
   field :password_hash, type: String
 

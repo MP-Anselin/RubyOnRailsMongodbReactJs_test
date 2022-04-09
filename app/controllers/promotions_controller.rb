@@ -10,8 +10,6 @@ class PromotionsController < ApplicationController
     @promotion_service = PromotionsService.new
   end
 
-
-
   ##
   # show content of one promotion
   # params id of the promotion to return
@@ -21,7 +19,6 @@ class PromotionsController < ApplicationController
   def show
     render json: @promotion_service.model.find(promotion_params[:id])
   end
-
 
   ##
   # Function to analyze the request get all promotion
@@ -36,7 +33,9 @@ class PromotionsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_promotion
-    @article = Article.find(params[:id])
+    if params[:id]
+      @promotion = Promotion.find(params[:id])
+    end
   end
 
   # Only allow a list of trusted parameters through.

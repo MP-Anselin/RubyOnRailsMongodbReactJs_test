@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   post "auth/signup", to: "sessions#signup"
   post "/auth/logout", to: "sessions#logout"
 
-  get "user", to: "users#show"
+  get "users/user", to: "users#show"
 
   get "/product/:id", to: "products#show"
   get "/product/:code", to: "products#show_by_code"

@@ -1,7 +1,8 @@
 require "test_helper"
 
-class CartTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+RSpec.describe Cart, type: :model do
+  it 'creat User' do
+    user = User.new(email: "testUser@example.com", password: "testUser")
+    expect(user).to be_valid
+  end
 end

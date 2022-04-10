@@ -1,7 +1,8 @@
 require "test_helper"
 
-class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+RSpec.describe User, type: :model do
+  it 'creat User' do
+    user = User.new(email: "testUser@example.com", password: "testUser")
+    expect(user).to be_valid
+  end
 end

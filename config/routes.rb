@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :carts
   post "auth/login", to: "sessions#login"
   post "auth/signup", to: "sessions#signup"
   post "/auth/logout", to: "sessions#logout"
